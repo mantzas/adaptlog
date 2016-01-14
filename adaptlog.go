@@ -26,21 +26,26 @@ type BaseLogger interface {
 	Println(...interface{})
 }
 
-// StdLogger interface
-type StdLogger interface {
-	BaseLogger
-	Fatal(...interface{})
-	Fatalf(string, ...interface{})
-	Fatalln(...interface{})
-
+// ExtendedLogger interface
+type ExtendedLogger interface {
 	Panic(...interface{})
 	Panicf(string, ...interface{})
 	Panicln(...interface{})
+
+	Fatal(...interface{})
+	Fatalf(string, ...interface{})
+	Fatalln(...interface{})
+}
+
+// StdLogger interface
+type StdLogger interface {
+	BaseLogger
+	ExtendedLogger
 }
 
 // LevelLogger interface
 type LevelLogger interface {
-	StdLogger
+	ExtendedLogger
 	Error(...interface{})
 	Errorf(string, ...interface{})
 	Errorln(...interface{})
