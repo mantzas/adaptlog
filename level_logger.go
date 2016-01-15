@@ -39,137 +39,117 @@ type LevelLogger interface {
 	Debugln(...interface{})
 }
 
-// DefaultLogLevel defines the global log level if not specified explicitely
-var DefaultLogLevel LogLevel
+var leveledLogger LevelLogger
+var initialized bool
 
-type levelLogger struct {
-	Level  LogLevel
+func init() {
+	initialized = false
+}
+
+// Initialize leveled logger. Only once needed
+func Initialize(logger LevelLogger) {
+	leveledLogger = logger
+	initialized = true
+}
+
+// NewLeveledLogger creates a new leveled logger
+func NewLeveledLogger() *LeveledLogger {
+	return &LeveledLogger{
+		logger: leveledLogger,
+	}
+}
+
+// LeveledLogger for logging with level support
+type LeveledLogger struct {
 	logger LevelLogger
 }
 
-func (l *levelLogger) Panic(args ...interface{}) {
-	if l.Level > Panic {
-		return
-	}
-
+// Panic logs level
+func (l *LeveledLogger) Panic(args ...interface{}) {
 	l.logger.Panic(args)
 }
 
-func (l *levelLogger) Panicf(msg string, args ...interface{}) {
-	if l.Level < Panic {
-		return
-	}
+// Panicf logs level with message
+func (l *LeveledLogger) Panicf(msg string, args ...interface{}) {
 	l.logger.Panicf(msg, args)
 }
 
-func (l *levelLogger) Panicln(args ...interface{}) {
-	if l.Level < Panic {
-		return
-	}
+// Panicln logs level with new line
+func (l *LeveledLogger) Panicln(args ...interface{}) {
 	l.logger.Panicln(args)
 }
 
-func (l *levelLogger) Fatal(args ...interface{}) {
-	if l.Level < Fatal {
-		return
-	}
+// Fatal logs level
+func (l *LeveledLogger) Fatal(args ...interface{}) {
 	l.logger.Fatal(args)
 }
 
-func (l *levelLogger) Fatalf(msg string, args ...interface{}) {
-	if l.Level < Fatal {
-		return
-	}
+// Fatalf logs level with message
+func (l *LeveledLogger) Fatalf(msg string, args ...interface{}) {
 	l.logger.Fatalf(msg, args)
 }
 
-func (l *levelLogger) Fatalln(args ...interface{}) {
-	if l.Level < Fatal {
-		return
-	}
+// Fatalln logs level with new line
+func (l *LeveledLogger) Fatalln(args ...interface{}) {
 	l.logger.Fatalln(args)
 }
 
-func (l *levelLogger) Error(args ...interface{}) {
-	if l.Level < Error {
-		return
-	}
+// Error logs level
+func (l *LeveledLogger) Error(args ...interface{}) {
 	l.logger.Error(args)
 }
 
-func (l *levelLogger) Errorf(msg string, args ...interface{}) {
-	if l.Level < Error {
-		return
-	}
+// Errorf logs level with message
+func (l *LeveledLogger) Errorf(msg string, args ...interface{}) {
 	l.logger.Errorf(msg, args)
 }
 
-func (l *levelLogger) Errorln(args ...interface{}) {
-	if l.Level < Error {
-		return
-	}
+// Errorln logs level with new line
+func (l *LeveledLogger) Errorln(args ...interface{}) {
 	l.logger.Errorln(args)
 }
 
-func (l *levelLogger) Warn(args ...interface{}) {
-	if l.Level < Warn {
-		return
-	}
+// Warn logs level
+func (l *LeveledLogger) Warn(args ...interface{}) {
 	l.logger.Warn(args)
 }
 
-func (l *levelLogger) Warnf(msg string, args ...interface{}) {
-	if l.Level < Warn {
-		return
-	}
+// Warnf logs level with message
+func (l *LeveledLogger) Warnf(msg string, args ...interface{}) {
 	l.logger.Warnf(msg, args)
 }
 
-func (l *levelLogger) Warnln(args ...interface{}) {
-	if l.Level < Warn {
-		return
-	}
+// Warnln logs level with new line
+func (l *LeveledLogger) Warnln(args ...interface{}) {
 	l.logger.Warnln(args)
 }
 
-func (l *levelLogger) Info(args ...interface{}) {
-	if l.Level < Info {
-		return
-	}
+// Info logs level
+func (l *LeveledLogger) Info(args ...interface{}) {
 	l.logger.Info(args)
 }
 
-func (l *levelLogger) Infof(msg string, args ...interface{}) {
-	if l.Level < Info {
-		return
-	}
+// Infof logs level with message
+func (l *LeveledLogger) Infof(msg string, args ...interface{}) {
 	l.logger.Infof(msg, args)
 }
 
-func (l *levelLogger) Infoln(args ...interface{}) {
-	if l.Level < Info {
-		return
-	}
+// Infoln logs level with new line
+func (l *LeveledLogger) Infoln(args ...interface{}) {
 	l.logger.Infoln(args)
 }
 
-func (l *levelLogger) Debug(args ...interface{}) {
-	if l.Level < Debug {
-		return
-	}
+// Debug logs level
+func (l *LeveledLogger) Debug(args ...interface{}) {
 	l.logger.Debug(args)
 }
 
-func (l *levelLogger) Debugf(msg string, args ...interface{}) {
-	if l.Level < Debug {
-		return
-	}
+// Debugf logs level with message
+func (l *LeveledLogger) Debugf(msg string, args ...interface{}) {
 	l.logger.Debugf(msg, args)
 }
 
-func (l *levelLogger) Debugln(args ...interface{}) {
-	if l.Level < Debug {
-		return
-	}
+// Debugln logs level with new line
+func (l *LeveledLogger) Debugln(args ...interface{}) {
 	l.logger.Debugln(args)
 }
