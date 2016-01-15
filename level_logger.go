@@ -1,5 +1,7 @@
 package adaptlog
 
+import "errors"
+
 // LogLevel type
 type LogLevel uint8
 
@@ -46,17 +48,22 @@ func init() {
 	initialized = false
 }
 
-// Initialize leveled logger. Only once needed
-func Initialize(logger LevelLogger) {
+// InitializeLeveledLogger initializes a leveled logger. Only once needed
+func InitializeLeveledLogger(logger LevelLogger) {
 	leveledLogger = logger
 	initialized = true
 }
 
 // NewLeveledLogger creates a new leveled logger
-func NewLeveledLogger() *LeveledLogger {
+func NewLeveledLogger() (*LeveledLogger, error) {
+
+	if !initialized {
+		return nil, errors.New("text string")
+	}
+
 	return &LeveledLogger{
 		logger: leveledLogger,
-	}
+	}, nil
 }
 
 // LeveledLogger for logging with level support
