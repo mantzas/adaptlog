@@ -2,16 +2,6 @@ package adaptlog
 
 import "testing"
 
-const (
-	Panic   = "Panic"
-	Panicf  = "Panicf"
-	Panicln = "Panicln"
-
-	Fatal   = "Fatal"
-	Fatalf  = "Fatalf"
-	Fatalln = "Fatalln"
-)
-
 func TestNewStandardLoggerWithoutConfigReturnsError(t *testing.T) {
 
 	logger, err := NewStandardLogger()
@@ -80,6 +70,16 @@ func TestNewStandardLoggerLoggingSucceeds(t *testing.T) {
 		t.Fatal("Logged items do not match!")
 	}
 }
+
+const (
+	Panic   = "Panic"
+	Panicf  = "Panicf"
+	Panicln = "Panicln"
+
+	Fatal   = "Fatal"
+	Fatalf  = "Fatalf"
+	Fatalln = "Fatalln"
+)
 
 type TestStandardLogger struct {
 	loggingData []string

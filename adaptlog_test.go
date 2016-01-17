@@ -2,12 +2,6 @@ package adaptlog
 
 import "testing"
 
-const (
-	Print   = "Print"
-	Printf  = "Printf"
-	Println = "Println"
-)
-
 func TestNewMinimumLoggerWithoutConfigReturnsError(t *testing.T) {
 
 	logger, err := NewMinimumLogger()
@@ -66,6 +60,12 @@ func TestNewMinimumLoggerLoggingSucceeds(t *testing.T) {
 		t.Fatal("Logged items do not match!")
 	}
 }
+
+const (
+	Print   = "Print"
+	Printf  = "Printf"
+	Println = "Println"
+)
 
 type TestMinimumLogger struct {
 	loggingData []string
