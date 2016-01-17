@@ -1,6 +1,26 @@
 package adaptlog
 
-import "testing"
+import (
+	"bytes"
+	"log"
+	"testing"
+)
+
+func BenchmarkMinimumLogger(b *testing.B) {
+
+	var buf bytes.Buffer
+	logger := log.New(&buf, "testing:", log.LstdFlags)
+
+	ConfigMinimalLogger(logger)
+
+	minLogger, _ := NewMinimumLogger()
+
+	b.ResetTimer()
+
+	for i := 0; i < b.N; i++ {
+		minLogger.Printf("Log item %d", i)
+	}
+}
 
 func TestNewMinimumLoggerWithoutConfigReturnsError(t *testing.T) {
 
