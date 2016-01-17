@@ -8,22 +8,6 @@ const (
 	Println = "Println"
 )
 
-type TestMinimumLogger struct {
-	loggingData []string
-}
-
-func (l *TestMinimumLogger) Print(args ...interface{}) {
-	l.loggingData = append(l.loggingData, Print)
-}
-
-func (l *TestMinimumLogger) Printf(msg string, args ...interface{}) {
-	l.loggingData = append(l.loggingData, Printf)
-}
-
-func (l *TestMinimumLogger) Println(args ...interface{}) {
-	l.loggingData = append(l.loggingData, Println)
-}
-
 func TestNewMinimumLoggerWithoutConfigReturnsError(t *testing.T) {
 
 	logger, err := NewMinimumLogger()
@@ -81,4 +65,20 @@ func TestNewMinimumLoggerLoggingSucceeds(t *testing.T) {
 	if logger.loggingData[0] != Print || logger.loggingData[1] != Printf || logger.loggingData[2] != Println {
 		t.Fatal("Logged items do not match!")
 	}
+}
+
+type TestMinimumLogger struct {
+	loggingData []string
+}
+
+func (l *TestMinimumLogger) Print(args ...interface{}) {
+	l.loggingData = append(l.loggingData, Print)
+}
+
+func (l *TestMinimumLogger) Printf(msg string, args ...interface{}) {
+	l.loggingData = append(l.loggingData, Printf)
+}
+
+func (l *TestMinimumLogger) Println(args ...interface{}) {
+	l.loggingData = append(l.loggingData, Println)
 }
