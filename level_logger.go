@@ -2,9 +2,9 @@ package adaptlog
 
 import "errors"
 
-// LvlLogger interface
+// LvlLogger interface. Introduces Error, Warn, Info and Debug logging facilities.
 type LvlLogger interface {
-	ExtendedLogger
+	ExtLogger
 	Error(...interface{})
 	Errorf(string, ...interface{})
 	Errorln(...interface{})
@@ -33,7 +33,7 @@ func ConfigLevelLogger(logger *LvlLogger) {
 func NewLevelLogger() (*LevelLogger, error) {
 
 	if levelLogger == nil {
-		return nil, errors.New("text string")
+		return nil, errors.New("Level logger is not configured!")
 	}
 
 	return &LevelLogger{*levelLogger}, nil
