@@ -61,7 +61,7 @@ func TestNewStandardLoggerLoggingSucceeds(t *testing.T) {
 	stdLogger.Panicln()
 
 	if len(logger.loggingData) != 9 {
-		t.Fatal("Logged items should be 3!")
+		t.Fatal("Logged items should be 9!")
 	}
 
 	if logger.loggingData[0] != Print || logger.loggingData[1] != Printf || logger.loggingData[2] != Println ||

@@ -22,10 +22,10 @@ type LvlLogger interface {
 	Debugln(...interface{})
 }
 
-var levelLogger *LvlLogger
+var levelLogger LvlLogger
 
 // ConfigLevelLogger configures a leveled logger
-func ConfigLevelLogger(logger *LvlLogger) {
+func ConfigLevelLogger(logger LvlLogger) {
 	levelLogger = logger
 }
 
@@ -36,7 +36,7 @@ func NewLevelLogger() (*LevelLogger, error) {
 		return nil, errors.New("Level logger is not configured!")
 	}
 
-	return &LevelLogger{*levelLogger}, nil
+	return &LevelLogger{levelLogger}, nil
 }
 
 // LevelLogger for logging with level support
