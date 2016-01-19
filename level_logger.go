@@ -2,25 +2,42 @@ package adaptlog
 
 import "errors"
 
+// ErrorLogger interface. Introduces Error logging facilities.
+type ErrorLogger interface {
+	Error(...interface{})
+	Errorf(string, ...interface{})
+	Errorln(...interface{})
+}
+
+// WarnLogger interface. Introduces Warn logging facilities.
+type WarnLogger interface {
+	Warn(...interface{})
+	Warnf(string, ...interface{})
+	Warnln(...interface{})
+}
+
+// InfoLogger interface. Introduces Info logging facilities.
+type InfoLogger interface {
+	Info(...interface{})
+	Infof(string, ...interface{})
+	Infoln(...interface{})
+}
+
+// DebugLogger interface. Introduces Debug logging facilities.
+type DebugLogger interface {
+	Debug(...interface{})
+	Debugf(string, ...interface{})
+	Debugln(...interface{})
+}
+
 // LvlLogger interface. Introduces Error, Warn, Info and Debug logging facilities.
 type LvlLogger interface {
 	FatalLogger
 	PanicLogger
-	Error(...interface{})
-	Errorf(string, ...interface{})
-	Errorln(...interface{})
-
-	Warn(...interface{})
-	Warnf(string, ...interface{})
-	Warnln(...interface{})
-
-	Info(...interface{})
-	Infof(string, ...interface{})
-	Infoln(...interface{})
-
-	Debug(...interface{})
-	Debugf(string, ...interface{})
-	Debugln(...interface{})
+	ErrorLogger
+	WarnLogger
+	InfoLogger
+	DebugLogger
 }
 
 var levelLogger LvlLogger
