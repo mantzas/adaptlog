@@ -9,14 +9,14 @@ type PrintLogger interface {
 	Println(...interface{})
 }
 
-// FatalLogger interface. Introduce Fatal logging facillities
+// FatalLogger interface. Introduce Fatal logging facilities
 type FatalLogger interface {
 	Fatal(...interface{})
 	Fatalf(string, ...interface{})
 	Fatalln(...interface{})
 }
 
-// PanicLogger interface. Introduce Panic logging facillities
+// PanicLogger interface. Introduce Panic logging facilities
 type PanicLogger interface {
 	Panic(...interface{})
 	Panicf(string, ...interface{})
