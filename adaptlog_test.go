@@ -1,30 +1,10 @@
 package adaptlog
 
-import (
-	"bytes"
-	"log"
-	"testing"
-)
+import "testing"
 
-func BenchmarkMinimumLogger(b *testing.B) {
+func TestNewStandardLoggerWithoutConfigReturnsError(t *testing.T) {
 
-	var buf bytes.Buffer
-	logger := log.New(&buf, "testing:", log.LstdFlags)
-
-	ConfigMinimalLogger(logger)
-
-	minLogger, _ := NewMinimumLogger()
-
-	b.ResetTimer()
-
-	for i := 0; i < b.N; i++ {
-		minLogger.Printf("Log item %d", i)
-	}
-}
-
-func TestNewMinimumLoggerWithoutConfigReturnsError(t *testing.T) {
-
-	logger, err := NewMinimumLogger()
+	logger, err := NewStandardLogger()
 
 	if logger != nil {
 		t.Fatal("Logger should have been nil!")
@@ -35,15 +15,15 @@ func TestNewMinimumLoggerWithoutConfigReturnsError(t *testing.T) {
 	}
 }
 
-func TestNewMinimumLoggerSucceeds(t *testing.T) {
+func TestNewStandardLoggerSucceeds(t *testing.T) {
 
-	var logger = new(TestMinimumLogger)
+	var logger = new(TestStandardLogger)
 
-	ConfigMinimalLogger(logger)
+	ConfigStandardLogger(logger)
 
-	minLogger, err := NewMinimumLogger()
+	stdLogger, err := NewStandardLogger()
 
-	if minLogger == nil {
+	if stdLogger == nil {
 		t.Fatal("Logger should have been not nil!")
 	}
 
@@ -52,15 +32,15 @@ func TestNewMinimumLoggerSucceeds(t *testing.T) {
 	}
 }
 
-func TestNewMinimumLoggerLoggingSucceeds(t *testing.T) {
+func TestNewStandardLoggerLoggingSucceeds(t *testing.T) {
 
-	var logger = new(TestMinimumLogger)
+	var logger = new(TestStandardLogger)
 
-	ConfigMinimalLogger(logger)
+	ConfigStandardLogger(logger)
 
-	minLogger, err := NewMinimumLogger()
+	stdLogger, err := NewStandardLogger()
 
-	if minLogger == nil {
+	if stdLogger == nil {
 		t.Fatal("Logger should have been not nil!")
 	}
 
@@ -68,15 +48,25 @@ func TestNewMinimumLoggerLoggingSucceeds(t *testing.T) {
 		t.Fatal("Should not have returned a error")
 	}
 
-	minLogger.Print()
-	minLogger.Printf("Test")
-	minLogger.Println()
+	stdLogger.Print()
+	stdLogger.Printf("Test")
+	stdLogger.Println()
 
-	if len(logger.loggingData) != 3 {
-		t.Fatal("Logged items should be 3!")
+	stdLogger.Fatal()
+	stdLogger.Fatalf("Test")
+	stdLogger.Fatalln()
+
+	stdLogger.Panic()
+	stdLogger.Panicf("Test")
+	stdLogger.Panicln()
+
+	if len(logger.loggingData) != 9 {
+		t.Fatal("Logged items should be 9!")
 	}
 
-	if logger.loggingData[0] != Print || logger.loggingData[1] != Printf || logger.loggingData[2] != Println {
+	if logger.loggingData[0] != Print || logger.loggingData[1] != Printf || logger.loggingData[2] != Println ||
+		logger.loggingData[3] != Fatal || logger.loggingData[4] != Fatalf || logger.loggingData[5] != Fatalln ||
+		logger.loggingData[6] != Panic || logger.loggingData[7] != Panicf || logger.loggingData[8] != Panicln {
 		t.Fatal("Logged items do not match!")
 	}
 }
@@ -85,20 +75,52 @@ const (
 	Print   = "Print"
 	Printf  = "Printf"
 	Println = "Println"
+
+	Panic   = "Panic"
+	Panicf  = "Panicf"
+	Panicln = "Panicln"
+
+	Fatal   = "Fatal"
+	Fatalf  = "Fatalf"
+	Fatalln = "Fatalln"
 )
 
-type TestMinimumLogger struct {
+type TestStandardLogger struct {
 	loggingData []string
 }
 
-func (l *TestMinimumLogger) Print(args ...interface{}) {
+func (l *TestStandardLogger) Print(args ...interface{}) {
 	l.loggingData = append(l.loggingData, Print)
 }
 
-func (l *TestMinimumLogger) Printf(msg string, args ...interface{}) {
+func (l *TestStandardLogger) Printf(msg string, args ...interface{}) {
 	l.loggingData = append(l.loggingData, Printf)
 }
 
-func (l *TestMinimumLogger) Println(args ...interface{}) {
+func (l *TestStandardLogger) Println(args ...interface{}) {
 	l.loggingData = append(l.loggingData, Println)
+}
+
+func (l *TestStandardLogger) Panic(args ...interface{}) {
+	l.loggingData = append(l.loggingData, Panic)
+}
+
+func (l *TestStandardLogger) Panicf(msg string, args ...interface{}) {
+	l.loggingData = append(l.loggingData, Panicf)
+}
+
+func (l *TestStandardLogger) Panicln(args ...interface{}) {
+	l.loggingData = append(l.loggingData, Panicln)
+}
+
+func (l *TestStandardLogger) Fatal(args ...interface{}) {
+	l.loggingData = append(l.loggingData, Fatal)
+}
+
+func (l *TestStandardLogger) Fatalf(msg string, args ...interface{}) {
+	l.loggingData = append(l.loggingData, Fatalf)
+}
+
+func (l *TestStandardLogger) Fatalln(args ...interface{}) {
+	l.loggingData = append(l.loggingData, Fatalln)
 }

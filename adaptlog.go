@@ -2,46 +2,97 @@ package adaptlog
 
 import "errors"
 
-// MinLogger interface. Introduces Print logging facilities.
-type MinLogger interface {
+// PrintLogger interface. Introduces Print logging facilities.
+type PrintLogger interface {
 	Print(...interface{})
 	Printf(string, ...interface{})
 	Println(...interface{})
 }
 
-// MinimalLogger structure
-type MinimalLogger struct {
-	logger MinLogger
+// FatalLogger interface. Introduce Fatal logging facillities
+type FatalLogger interface {
+	Fatal(...interface{})
+	Fatalf(string, ...interface{})
+	Fatalln(...interface{})
 }
 
-var minLogger MinLogger
-
-// ConfigMinimalLogger configures a minimal logger
-func ConfigMinimalLogger(logger MinLogger) {
-	minLogger = logger
+// PanicLogger interface. Introduce Panic logging facillities
+type PanicLogger interface {
+	Panic(...interface{})
+	Panicf(string, ...interface{})
+	Panicln(...interface{})
 }
 
-// NewMinimumLogger creates a new minimal logger
-func NewMinimumLogger() (*MinimalLogger, error) {
+// StdLogger interface
+type StdLogger interface {
+	PrintLogger
+	FatalLogger
+	PanicLogger
+}
 
-	if minLogger == nil {
-		return nil, errors.New("Minimal logger is not configured!")
+// StandardLogger structure
+type StandardLogger struct {
+	logger StdLogger
+}
+
+var stdLogger StdLogger
+
+// ConfigStandardLogger configures a standard logger
+func ConfigStandardLogger(logger StdLogger) {
+	stdLogger = logger
+}
+
+// NewStandardLogger creates a new standard logger
+func NewStandardLogger() (*StandardLogger, error) {
+
+	if stdLogger == nil {
+		return nil, errors.New("Standard logger is not configured!")
 	}
 
-	return &MinimalLogger{minLogger}, nil
+	return &StandardLogger{stdLogger}, nil
 }
 
 // Print logging
-func (l *MinimalLogger) Print(args ...interface{}) {
+func (l *StandardLogger) Print(args ...interface{}) {
 	l.logger.Print(args)
 }
 
 // Printf logging with message
-func (l *MinimalLogger) Printf(msg string, args ...interface{}) {
+func (l *StandardLogger) Printf(msg string, args ...interface{}) {
 	l.logger.Printf(msg, args)
 }
 
 // Println logging with new line
-func (l *MinimalLogger) Println(args ...interface{}) {
+func (l *StandardLogger) Println(args ...interface{}) {
 	l.logger.Println(args)
+}
+
+// Panic logging
+func (l *StandardLogger) Panic(args ...interface{}) {
+	l.logger.Panic(args)
+}
+
+// Panicf logging with message
+func (l *StandardLogger) Panicf(msg string, args ...interface{}) {
+	l.logger.Panicf(msg, args)
+}
+
+// Panicln logging with new line
+func (l *StandardLogger) Panicln(args ...interface{}) {
+	l.logger.Panicln(args)
+}
+
+// Fatal logging
+func (l *StandardLogger) Fatal(args ...interface{}) {
+	l.logger.Fatal(args)
+}
+
+// Fatalf logging with message
+func (l *StandardLogger) Fatalf(msg string, args ...interface{}) {
+	l.logger.Fatalf(msg, args)
+}
+
+// Fatalln logging with new line
+func (l *StandardLogger) Fatalln(args ...interface{}) {
+	l.logger.Fatalln(args)
 }

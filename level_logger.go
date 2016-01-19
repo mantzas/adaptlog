@@ -4,7 +4,8 @@ import "errors"
 
 // LvlLogger interface. Introduces Error, Warn, Info and Debug logging facilities.
 type LvlLogger interface {
-	ExtLogger
+	FatalLogger
+	PanicLogger
 	Error(...interface{})
 	Errorf(string, ...interface{})
 	Errorln(...interface{})
