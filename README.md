@@ -1,4 +1,5 @@
-# adaptlog ![alt text](https://travis-ci.org/mantzas/adaptlog.svg?branch=master "Build Status")
+# adaptlog [![BuildStatus](https://travis-ci.org/mantzas/adaptlog.svg?branch=master)](https://travis-ci.org/mantzas/adaptlog)&nbsp;[![alt text](https://godoc.org/github.com/mantzas/adaptlog?status.png)](https://godoc.org/github.com/mantzas/adaptlog)
+
 Package adaptlog is a logging abstraction for go. The name of the package is a composition of adapt(adaptive) and log(logging).
 
 The developer uses this abstraction in order to avoid depending on a specific logging implementation. The package provides two abstractions:
