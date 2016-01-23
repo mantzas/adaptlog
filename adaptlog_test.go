@@ -64,25 +64,25 @@ func TestNewStandardLoggerLoggingSucceeds(t *testing.T) {
 		t.Fatal("Logged items should be 9!")
 	}
 
-	if logger.loggingData[0] != Print || logger.loggingData[1] != Printf || logger.loggingData[2] != Println ||
-		logger.loggingData[3] != Fatal || logger.loggingData[4] != Fatalf || logger.loggingData[5] != Fatalln ||
-		logger.loggingData[6] != Panic || logger.loggingData[7] != Panicf || logger.loggingData[8] != Panicln {
+	if logger.loggingData[0] != PrintMsg || logger.loggingData[1] != PrintfMsg || logger.loggingData[2] != PrintlnMsg ||
+		logger.loggingData[3] != FatalMsg || logger.loggingData[4] != FatalfMsg || logger.loggingData[5] != FatallnMsg ||
+		logger.loggingData[6] != PanicMsg || logger.loggingData[7] != PanicfMsg || logger.loggingData[8] != PaniclnMsg {
 		t.Fatal("Logged items do not match!")
 	}
 }
 
 const (
-	Print   = "Print"
-	Printf  = "Printf"
-	Println = "Println"
+	PrintMsg   = "PrintMsg"
+	PrintfMsg  = "PrintfMsg"
+	PrintlnMsg = "PrintlnMsg"
 
-	Panic   = "Panic"
-	Panicf  = "Panicf"
-	Panicln = "Panicln"
+	PanicMsg   = "PanicMsg"
+	PanicfMsg  = "PanicfMsg"
+	PaniclnMsg = "PaniclnMsg"
 
-	Fatal   = "Fatal"
-	Fatalf  = "Fatalf"
-	Fatalln = "Fatalln"
+	FatalMsg   = "FatalMsg"
+	FatalfMsg  = "FatalfMsg"
+	FatallnMsg = "FatallnMsg"
 )
 
 type TestStandardLogger struct {
@@ -90,37 +90,37 @@ type TestStandardLogger struct {
 }
 
 func (l *TestStandardLogger) Print(args ...interface{}) {
-	l.loggingData = append(l.loggingData, Print)
+	l.loggingData = append(l.loggingData, PrintMsg)
 }
 
 func (l *TestStandardLogger) Printf(msg string, args ...interface{}) {
-	l.loggingData = append(l.loggingData, Printf)
+	l.loggingData = append(l.loggingData, PrintfMsg)
 }
 
 func (l *TestStandardLogger) Println(args ...interface{}) {
-	l.loggingData = append(l.loggingData, Println)
+	l.loggingData = append(l.loggingData, PrintlnMsg)
 }
 
 func (l *TestStandardLogger) Panic(args ...interface{}) {
-	l.loggingData = append(l.loggingData, Panic)
+	l.loggingData = append(l.loggingData, PanicMsg)
 }
 
 func (l *TestStandardLogger) Panicf(msg string, args ...interface{}) {
-	l.loggingData = append(l.loggingData, Panicf)
+	l.loggingData = append(l.loggingData, PanicfMsg)
 }
 
 func (l *TestStandardLogger) Panicln(args ...interface{}) {
-	l.loggingData = append(l.loggingData, Panicln)
+	l.loggingData = append(l.loggingData, PaniclnMsg)
 }
 
 func (l *TestStandardLogger) Fatal(args ...interface{}) {
-	l.loggingData = append(l.loggingData, Fatal)
+	l.loggingData = append(l.loggingData, FatalMsg)
 }
 
 func (l *TestStandardLogger) Fatalf(msg string, args ...interface{}) {
-	l.loggingData = append(l.loggingData, Fatalf)
+	l.loggingData = append(l.loggingData, FatalfMsg)
 }
 
 func (l *TestStandardLogger) Fatalln(args ...interface{}) {
-	l.loggingData = append(l.loggingData, Fatalln)
+	l.loggingData = append(l.loggingData, FatallnMsg)
 }
