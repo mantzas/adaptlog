@@ -1,8 +1,8 @@
 package adaptlog
 
 import (
-    "testing"
-    "reflect"
+	"reflect"
+	"testing"
 )
 
 func TestNewLeveledLoggerWithoutConfigReturnsError(t *testing.T) {
@@ -103,69 +103,69 @@ func TestNewDefaultLevelLoggerLoggingSucceeds(t *testing.T) {
 }
 
 var leveledLoggingTests = []struct {
-    in  Level
-    out []string
+	in  Level
+	out []string
 }{
-    {-1, []string {  }},
-    {Panic, []string { PanicMsg, PanicfMsg, PaniclnMsg }},
-    {Fatal, []string { PanicMsg, PanicfMsg, PaniclnMsg, FatalMsg, FatalfMsg, FatallnMsg }},
-    {Error, []string { PanicMsg, PanicfMsg, PaniclnMsg, FatalMsg, FatalfMsg, FatallnMsg, ErrorMsg, ErrorfMsg, ErrorlnMsg }},
-    {Warn, []string { PanicMsg, PanicfMsg, PaniclnMsg, FatalMsg, FatalfMsg, FatallnMsg, ErrorMsg, ErrorfMsg, ErrorlnMsg, WarnMsg, WarnfMsg, WarnlnMsg }},
-    {Info, []string { PanicMsg, PanicfMsg, PaniclnMsg, FatalMsg, FatalfMsg, FatallnMsg, ErrorMsg, ErrorfMsg, ErrorlnMsg, WarnMsg, WarnfMsg, WarnlnMsg, InfoMsg, InfofMsg, InfolnMsg }},
-    {Debug, []string { PanicMsg, PanicfMsg, PaniclnMsg, FatalMsg, FatalfMsg, FatallnMsg, ErrorMsg, ErrorfMsg, ErrorlnMsg, WarnMsg, WarnfMsg, WarnlnMsg, InfoMsg, InfofMsg, InfolnMsg, DebugMsg, DebugfMsg, DebuglnMsg }},
+	{-1, []string{}},
+	{Panic, []string{PanicMsg, PanicfMsg, PaniclnMsg}},
+	{Fatal, []string{PanicMsg, PanicfMsg, PaniclnMsg, FatalMsg, FatalfMsg, FatallnMsg}},
+	{Error, []string{PanicMsg, PanicfMsg, PaniclnMsg, FatalMsg, FatalfMsg, FatallnMsg, ErrorMsg, ErrorfMsg, ErrorlnMsg}},
+	{Warn, []string{PanicMsg, PanicfMsg, PaniclnMsg, FatalMsg, FatalfMsg, FatallnMsg, ErrorMsg, ErrorfMsg, ErrorlnMsg, WarnMsg, WarnfMsg, WarnlnMsg}},
+	{Info, []string{PanicMsg, PanicfMsg, PaniclnMsg, FatalMsg, FatalfMsg, FatallnMsg, ErrorMsg, ErrorfMsg, ErrorlnMsg, WarnMsg, WarnfMsg, WarnlnMsg, InfoMsg, InfofMsg, InfolnMsg}},
+	{Debug, []string{PanicMsg, PanicfMsg, PaniclnMsg, FatalMsg, FatalfMsg, FatallnMsg, ErrorMsg, ErrorfMsg, ErrorlnMsg, WarnMsg, WarnfMsg, WarnlnMsg, InfoMsg, InfofMsg, InfolnMsg, DebugMsg, DebugfMsg, DebuglnMsg}},
 }
 
 func TestLevelLoggingTableTest(t *testing.T) {
 
-    for _, test := range leveledLoggingTests {
-        
-        var logger = new(TestLevelLogger)
-        ConfigLevelLogger(logger, Debug)
-        
-        lvllogger, err := NewLevelLogger(test.in)
+	for _, test := range leveledLoggingTests {
 
-        if lvllogger == nil {
-            t.Fatal("Logger should have been not nil!")
-        }
+		var logger = new(TestLevelLogger)
+		ConfigLevelLogger(logger, Debug)
 
-        if err != nil {
-            t.Fatal("Should not have returned a error")
-        }
+		lvllogger, err := NewLevelLogger(test.in)
 
-        lvllogger.Panic()
-        lvllogger.Panicf("Test")
-        lvllogger.Panicln()
+		if lvllogger == nil {
+			t.Fatal("Logger should have been not nil!")
+		}
 
-        lvllogger.Fatal()
-        lvllogger.Fatalf("Test")
-        lvllogger.Fatalln()
+		if err != nil {
+			t.Fatal("Should not have returned a error")
+		}
 
-        lvllogger.Error()
-        lvllogger.Errorf("Test")
-        lvllogger.Errorln()
+		lvllogger.Panic()
+		lvllogger.Panicf("Test")
+		lvllogger.Panicln()
 
-        lvllogger.Warn()
-        lvllogger.Warnf("Test")
-        lvllogger.Warnln()
+		lvllogger.Fatal()
+		lvllogger.Fatalf("Test")
+		lvllogger.Fatalln()
 
-        lvllogger.Info()
-        lvllogger.Infof("Test")
-        lvllogger.Infoln()
+		lvllogger.Error()
+		lvllogger.Errorf("Test")
+		lvllogger.Errorln()
 
-        lvllogger.Debug()
-        lvllogger.Debugf("Test")
-        lvllogger.Debugln()
-        
-        if len(logger.loggingData) == len(test.out) && len(test.out) == 0 {
-            if test.in != -1 {
-                t.Fatal("Level should have been -1!")
-            }
-        } else {
-            if !reflect.DeepEqual(logger.loggingData, test.out) {
-                t.Fatalf("Logged data is different as expected! actual=%s expected=%s", logger.loggingData, test.out)
-            }
-        }       
-    }    
+		lvllogger.Warn()
+		lvllogger.Warnf("Test")
+		lvllogger.Warnln()
+
+		lvllogger.Info()
+		lvllogger.Infof("Test")
+		lvllogger.Infoln()
+
+		lvllogger.Debug()
+		lvllogger.Debugf("Test")
+		lvllogger.Debugln()
+
+		if len(logger.loggingData) == len(test.out) && len(test.out) == 0 {
+			if test.in != -1 {
+				t.Fatal("Level should have been -1!")
+			}
+		} else {
+			if !reflect.DeepEqual(logger.loggingData, test.out) {
+				t.Fatalf("Logged data is different as expected! actual=%s expected=%s", logger.loggingData, test.out)
+			}
+		}
+	}
 }
 
 const (
