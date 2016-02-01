@@ -99,7 +99,7 @@ func (l *LevelLogger) Panic(args ...interface{}) {
 	if l.level < Panic {
 		return
 	}
-	l.logger.Panic(args)
+	l.logger.Panic(args...)
 }
 
 // Panicf level logging with message
@@ -107,7 +107,7 @@ func (l *LevelLogger) Panicf(msg string, args ...interface{}) {
 	if l.level < Panic {
 		return
 	}
-	l.logger.Panicf(msg, args)
+	l.logger.Panicf(msg, args...)
 }
 
 // Panicln level logging with new line
@@ -115,7 +115,7 @@ func (l *LevelLogger) Panicln(args ...interface{}) {
 	if l.level < Panic {
 		return
 	}
-	l.logger.Panicln(args)
+	l.logger.Panicln(args...)
 }
 
 // Fatal level logging
@@ -123,7 +123,7 @@ func (l *LevelLogger) Fatal(args ...interface{}) {
 	if l.level < Fatal {
 		return
 	}
-	l.logger.Fatal(args)
+	l.logger.Fatal(args...)
 }
 
 // Fatalf level logging with message
@@ -131,7 +131,7 @@ func (l *LevelLogger) Fatalf(msg string, args ...interface{}) {
 	if l.level < Fatal {
 		return
 	}
-	l.logger.Fatalf(msg, args)
+	l.logger.Fatalf(msg, args...)
 }
 
 // Fatalln level logging with new line
@@ -139,7 +139,7 @@ func (l *LevelLogger) Fatalln(args ...interface{}) {
 	if l.level < Fatal {
 		return
 	}
-	l.logger.Fatalln(args)
+	l.logger.Fatalln(args...)
 }
 
 // Error level logging
@@ -147,7 +147,7 @@ func (l *LevelLogger) Error(args ...interface{}) {
 	if l.level < Error {
 		return
 	}
-	l.logger.Error(args)
+	l.logger.Error(args...)
 }
 
 // Errorf level logging with message
@@ -155,7 +155,7 @@ func (l *LevelLogger) Errorf(msg string, args ...interface{}) {
 	if l.level < Error {
 		return
 	}
-	l.logger.Errorf(msg, args)
+	l.logger.Errorf(msg, args...)
 }
 
 // Errorln level logging with new line
@@ -163,7 +163,7 @@ func (l *LevelLogger) Errorln(args ...interface{}) {
 	if l.level < Error {
 		return
 	}
-	l.logger.Errorln(args)
+	l.logger.Errorln(args...)
 }
 
 // Warn level logging
@@ -171,7 +171,7 @@ func (l *LevelLogger) Warn(args ...interface{}) {
 	if l.level < Warn {
 		return
 	}
-	l.logger.Warn(args)
+	l.logger.Warn(args...)
 }
 
 // Warnf level logging with message
@@ -179,7 +179,7 @@ func (l *LevelLogger) Warnf(msg string, args ...interface{}) {
 	if l.level < Warn {
 		return
 	}
-	l.logger.Warnf(msg, args)
+	l.logger.Warnf(msg, args...)
 }
 
 // Warnln level logging with new line
@@ -187,7 +187,7 @@ func (l *LevelLogger) Warnln(args ...interface{}) {
 	if l.level < Warn {
 		return
 	}
-	l.logger.Warnln(args)
+	l.logger.Warnln(args...)
 }
 
 // Info level logging
@@ -195,7 +195,7 @@ func (l *LevelLogger) Info(args ...interface{}) {
 	if l.level < Info {
 		return
 	}
-	l.logger.Info(args)
+	l.logger.Info(args...)
 }
 
 // Infof level logging with message
@@ -203,7 +203,7 @@ func (l *LevelLogger) Infof(msg string, args ...interface{}) {
 	if l.level < Info {
 		return
 	}
-	l.logger.Infof(msg, args)
+	l.logger.Infof(msg, args...)
 }
 
 // Infoln level logging with new line
@@ -211,7 +211,7 @@ func (l *LevelLogger) Infoln(args ...interface{}) {
 	if l.level < Info {
 		return
 	}
-	l.logger.Infoln(args)
+	l.logger.Infoln(args...)
 }
 
 // Debug level logging
@@ -219,7 +219,7 @@ func (l *LevelLogger) Debug(args ...interface{}) {
 	if l.level < Debug {
 		return
 	}
-	l.logger.Debug(args)
+	l.logger.Debug(args...)
 }
 
 // Debugf level logging with message
@@ -227,7 +227,7 @@ func (l *LevelLogger) Debugf(msg string, args ...interface{}) {
 	if l.level < Debug {
 		return
 	}
-	l.logger.Debugf(msg, args)
+	l.logger.Debugf(msg, args...)
 }
 
 // Debugln level logging with new line
@@ -235,5 +235,5 @@ func (l *LevelLogger) Debugln(args ...interface{}) {
 	if l.level < Debug {
 		return
 	}
-	l.logger.Debugln(args)
+	l.logger.Debugln(args...)
 }

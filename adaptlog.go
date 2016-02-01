@@ -54,45 +54,45 @@ func NewStandardLogger() (*StandardLogger, error) {
 
 // Print logging
 func (l *StandardLogger) Print(args ...interface{}) {
-	l.logger.Print(args)
+	l.logger.Print(args...)
 }
 
 // Printf logging with message
 func (l *StandardLogger) Printf(msg string, args ...interface{}) {
-	l.logger.Printf(msg, args)
+	l.logger.Printf(msg, args...)
 }
 
 // Println logging with new line
 func (l *StandardLogger) Println(args ...interface{}) {
-	l.logger.Println(args)
+	l.logger.Println(args...)
 }
 
 // Panic logging
 func (l *StandardLogger) Panic(args ...interface{}) {
-	l.logger.Panic(args)
+	l.logger.Panic(args...)
 }
 
 // Panicf logging with message
 func (l *StandardLogger) Panicf(msg string, args ...interface{}) {
-	l.logger.Panicf(msg, args)
+	l.logger.Panicf(msg, args...)
 }
 
 // Panicln logging with new line
 func (l *StandardLogger) Panicln(args ...interface{}) {
-	l.logger.Panicln(args)
+	l.logger.Panicln(args...)
 }
 
 // Fatal logging
 func (l *StandardLogger) Fatal(args ...interface{}) {
-	l.logger.Fatal(args)
+	l.logger.Fatal(args...)
 }
 
 // Fatalf logging with message
 func (l *StandardLogger) Fatalf(msg string, args ...interface{}) {
-	l.logger.Fatalf(msg, args)
+	l.logger.Fatalf(msg, args...)
 }
 
 // Fatalln logging with new line
 func (l *StandardLogger) Fatalln(args ...interface{}) {
-	l.logger.Fatalln(args)
+	l.logger.Fatalln(args...)
 }

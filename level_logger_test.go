@@ -64,29 +64,29 @@ func TestNewDefaultLevelLoggerLoggingSucceeds(t *testing.T) {
 		t.Fatal("Should not have returned a error")
 	}
 
-	stdLogger.Fatal()
+	stdLogger.Fatal("")
 	stdLogger.Fatalf("Test")
-	stdLogger.Fatalln()
+	stdLogger.Fatalln("")
 
-	stdLogger.Panic()
+	stdLogger.Panic("")
 	stdLogger.Panicf("Test")
-	stdLogger.Panicln()
+	stdLogger.Panicln("")
 
-	stdLogger.Error()
+	stdLogger.Error("")
 	stdLogger.Errorf("Test")
-	stdLogger.Errorln()
+	stdLogger.Errorln("")
 
-	stdLogger.Warn()
+	stdLogger.Warn("")
 	stdLogger.Warnf("Test")
-	stdLogger.Warnln()
+	stdLogger.Warnln("")
 
-	stdLogger.Info()
+	stdLogger.Info("")
 	stdLogger.Infof("Test")
-	stdLogger.Infoln()
+	stdLogger.Infoln("")
 
-	stdLogger.Debug()
+	stdLogger.Debug("")
 	stdLogger.Debugf("Test")
-	stdLogger.Debugln()
+	stdLogger.Debugln("")
 
 	if len(logger.loggingData) != 18 {
 		t.Fatal("Logged items should be 18!")
@@ -132,29 +132,29 @@ func TestLevelLoggingTableTest(t *testing.T) {
 			t.Fatal("Should not have returned a error")
 		}
 
-		lvllogger.Panic()
+		lvllogger.Panic("")
 		lvllogger.Panicf("Test")
-		lvllogger.Panicln()
+		lvllogger.Panicln("")
 
-		lvllogger.Fatal()
+		lvllogger.Fatal("")
 		lvllogger.Fatalf("Test")
-		lvllogger.Fatalln()
+		lvllogger.Fatalln("")
 
-		lvllogger.Error()
+		lvllogger.Error("")
 		lvllogger.Errorf("Test")
-		lvllogger.Errorln()
+		lvllogger.Errorln("")
 
-		lvllogger.Warn()
+		lvllogger.Warn("")
 		lvllogger.Warnf("Test")
-		lvllogger.Warnln()
+		lvllogger.Warnln("")
 
-		lvllogger.Info()
+		lvllogger.Info("")
 		lvllogger.Infof("Test")
-		lvllogger.Infoln()
+		lvllogger.Infoln("")
 
-		lvllogger.Debug()
+		lvllogger.Debug("")
 		lvllogger.Debugf("Test")
-		lvllogger.Debugln()
+		lvllogger.Debugln("")
 
 		if len(logger.loggingData) == len(test.out) && len(test.out) == 0 {
 			if test.in != -1 {

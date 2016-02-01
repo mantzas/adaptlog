@@ -48,17 +48,17 @@ func TestNewStandardLoggerLoggingSucceeds(t *testing.T) {
 		t.Fatal("Should not have returned a error")
 	}
 
-	stdLogger.Print()
+	stdLogger.Print("")
 	stdLogger.Printf("Test")
-	stdLogger.Println()
+	stdLogger.Println("")
 
-	stdLogger.Fatal()
+	stdLogger.Fatal("")
 	stdLogger.Fatalf("Test")
-	stdLogger.Fatalln()
+	stdLogger.Fatalln("")
 
-	stdLogger.Panic()
+	stdLogger.Panic("")
 	stdLogger.Panicf("Test")
-	stdLogger.Panicln()
+	stdLogger.Panicln("")
 
 	if len(logger.loggingData) != 9 {
 		t.Fatal("Logged items should be 9!")
