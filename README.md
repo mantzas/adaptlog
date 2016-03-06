@@ -71,13 +71,6 @@ The simplest way to use adaptlog's standard logger is by simply implementing the
       // configure once
       adaptlog.ConfigStandardLogger(new(MyLogger))
 
-      // get new standard logger
-      logger, err := adaptlog.NewStandardLogger()
-
-      if err != nil {
-           panic(err.Error())
-      }
-
       // use logger
-        logger.Print("Hello World!")
+      Logger.Print("Hello World!")
     }
