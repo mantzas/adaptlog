@@ -1,7 +1,5 @@
 package adaptlog
 
-import "errors"
-
 // Level type
 type Level int
 
@@ -59,33 +57,15 @@ type LvlLogger interface {
 	DebugLogger
 }
 
-var levelLogger LvlLogger
 var defaultLevel Level
+
+// LLogger instance
+var LLogger LevelLogger
 
 // ConfigLevelLogger configures a leveled logger
 func ConfigLevelLogger(logger LvlLogger, level Level) {
-	levelLogger = logger
 	defaultLevel = level
-}
-
-// NewDefaultLevelLogger creates a new logger with the default level
-func NewDefaultLevelLogger() (*LevelLogger, error) {
-
-	if levelLogger == nil {
-		return nil, errors.New("Level logger is not configured!")
-	}
-
-	return &LevelLogger{levelLogger, defaultLevel}, nil
-}
-
-// NewLevelLogger creates a new level logger with a specified log level
-func NewLevelLogger(level Level) (*LevelLogger, error) {
-
-	if levelLogger == nil {
-		return nil, errors.New("Level logger is not configured!")
-	}
-
-	return &LevelLogger{levelLogger, level}, nil
+	LLogger = LevelLogger{logger, defaultLevel}
 }
 
 // LevelLogger for logging with level support

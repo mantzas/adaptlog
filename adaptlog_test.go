@@ -2,15 +2,9 @@ package adaptlog
 
 import "testing"
 
-func TestNewStandardLoggerWithoutConfigReturnsError(t *testing.T) {
+func TestLoggerWithoutConfigIsNil(t *testing.T) {
 
-	logger, err := NewStandardLogger()
-
-	if logger != nil {
-		t.Fatal("Logger should have been nil!")
-	}
-
-	if err == nil {
+	if Logger.logger != nil {
 		t.Fatal("Should have returned a error")
 	}
 }
@@ -21,14 +15,8 @@ func TestNewStandardLoggerSucceeds(t *testing.T) {
 
 	ConfigStandardLogger(logger)
 
-	stdLogger, err := NewStandardLogger()
-
-	if stdLogger == nil {
+	if Logger.logger == nil {
 		t.Fatal("Logger should have been not nil!")
-	}
-
-	if err != nil {
-		t.Fatal("Should not have returned a error")
 	}
 }
 
@@ -38,27 +26,21 @@ func TestNewStandardLoggerLoggingSucceeds(t *testing.T) {
 
 	ConfigStandardLogger(logger)
 
-	stdLogger, err := NewStandardLogger()
-
-	if stdLogger == nil {
+	if Logger.logger == nil {
 		t.Fatal("Logger should have been not nil!")
 	}
 
-	if err != nil {
-		t.Fatal("Should not have returned a error")
-	}
+	Logger.Print("")
+	Logger.Printf("Test")
+	Logger.Println("")
 
-	stdLogger.Print("")
-	stdLogger.Printf("Test")
-	stdLogger.Println("")
+	Logger.Fatal("")
+	Logger.Fatalf("Test")
+	Logger.Fatalln("")
 
-	stdLogger.Fatal("")
-	stdLogger.Fatalf("Test")
-	stdLogger.Fatalln("")
-
-	stdLogger.Panic("")
-	stdLogger.Panicf("Test")
-	stdLogger.Panicln("")
+	Logger.Panic("")
+	Logger.Panicf("Test")
+	Logger.Panicln("")
 
 	if len(logger.loggingData) != 9 {
 		t.Fatal("Logged items should be 9!")

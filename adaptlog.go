@@ -1,7 +1,5 @@
 package adaptlog
 
-import "errors"
-
 // PrintLogger interface. Introduces Print logging facilities.
 type PrintLogger interface {
 	Print(...interface{})
@@ -35,21 +33,12 @@ type StandardLogger struct {
 	logger StdLogger
 }
 
-var stdLogger StdLogger
+// Logger standard logger instance
+var Logger StandardLogger
 
 // ConfigStandardLogger configures a standard logger
 func ConfigStandardLogger(logger StdLogger) {
-	stdLogger = logger
-}
-
-// NewStandardLogger creates a new standard logger
-func NewStandardLogger() (*StandardLogger, error) {
-
-	if stdLogger == nil {
-		return nil, errors.New("Standard logger is not configured!")
-	}
-
-	return &StandardLogger{stdLogger}, nil
+	Logger = StandardLogger{logger}
 }
 
 // Print logging

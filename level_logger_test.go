@@ -5,46 +5,21 @@ import (
 	"testing"
 )
 
-func TestNewLeveledLoggerWithoutConfigReturnsError(t *testing.T) {
+func TestLLoggerWithoutConfigReturnsIsNil(t *testing.T) {
 
-	logger, err := NewLevelLogger(Debug)
-
-	if logger != nil {
+	if LLogger.logger != nil {
 		t.Fatal("Logger should have been nil!")
-	}
-
-	if err == nil {
-		t.Fatal("Should have returned a error")
 	}
 }
 
-func TestNewDefaultLeveledLoggerWithoutConfigReturnsError(t *testing.T) {
-
-	logger, err := NewDefaultLevelLogger()
-
-	if logger != nil {
-		t.Fatal("Logger should have been nil!")
-	}
-
-	if err == nil {
-		t.Fatal("Should have returned a error")
-	}
-}
-
-func TestNewDefaultLeveledLoggerSucceeds(t *testing.T) {
+func TestLLoggerSucceeds(t *testing.T) {
 
 	var logger = new(TestLevelLogger)
 
 	ConfigLevelLogger(logger, Debug)
 
-	stdLogger, err := NewDefaultLevelLogger()
-
-	if stdLogger == nil {
+	if LLogger.logger == nil {
 		t.Fatal("Logger should have been not nil!")
-	}
-
-	if err != nil {
-		t.Fatal("Should not have returned a error")
 	}
 }
 
@@ -54,39 +29,33 @@ func TestNewDefaultLevelLoggerLoggingSucceeds(t *testing.T) {
 
 	ConfigLevelLogger(logger, Debug)
 
-	stdLogger, err := NewDefaultLevelLogger()
-
-	if stdLogger == nil {
+	if LLogger.logger == nil {
 		t.Fatal("Logger should have been not nil!")
 	}
 
-	if err != nil {
-		t.Fatal("Should not have returned a error")
-	}
+	LLogger.Fatal("")
+	LLogger.Fatalf("Test")
+	LLogger.Fatalln("")
 
-	stdLogger.Fatal("")
-	stdLogger.Fatalf("Test")
-	stdLogger.Fatalln("")
+	LLogger.Panic("")
+	LLogger.Panicf("Test")
+	LLogger.Panicln("")
 
-	stdLogger.Panic("")
-	stdLogger.Panicf("Test")
-	stdLogger.Panicln("")
+	LLogger.Error("")
+	LLogger.Errorf("Test")
+	LLogger.Errorln("")
 
-	stdLogger.Error("")
-	stdLogger.Errorf("Test")
-	stdLogger.Errorln("")
+	LLogger.Warn("")
+	LLogger.Warnf("Test")
+	LLogger.Warnln("")
 
-	stdLogger.Warn("")
-	stdLogger.Warnf("Test")
-	stdLogger.Warnln("")
+	LLogger.Info("")
+	LLogger.Infof("Test")
+	LLogger.Infoln("")
 
-	stdLogger.Info("")
-	stdLogger.Infof("Test")
-	stdLogger.Infoln("")
-
-	stdLogger.Debug("")
-	stdLogger.Debugf("Test")
-	stdLogger.Debugln("")
+	LLogger.Debug("")
+	LLogger.Debugf("Test")
+	LLogger.Debugln("")
 
 	if len(logger.loggingData) != 18 {
 		t.Fatal("Logged items should be 18!")
@@ -120,41 +89,35 @@ func TestLevelLoggingTableTest(t *testing.T) {
 	for _, test := range leveledLoggingTests {
 
 		var logger = new(TestLevelLogger)
-		ConfigLevelLogger(logger, Debug)
+		ConfigLevelLogger(logger, test.in)
 
-		lvllogger, err := NewLevelLogger(test.in)
-
-		if lvllogger == nil {
+		if LLogger.logger == nil {
 			t.Fatal("Logger should have been not nil!")
 		}
 
-		if err != nil {
-			t.Fatal("Should not have returned a error")
-		}
+		LLogger.Panic("")
+		LLogger.Panicf("Test")
+		LLogger.Panicln("")
 
-		lvllogger.Panic("")
-		lvllogger.Panicf("Test")
-		lvllogger.Panicln("")
+		LLogger.Fatal("")
+		LLogger.Fatalf("Test")
+		LLogger.Fatalln("")
 
-		lvllogger.Fatal("")
-		lvllogger.Fatalf("Test")
-		lvllogger.Fatalln("")
+		LLogger.Error("")
+		LLogger.Errorf("Test")
+		LLogger.Errorln("")
 
-		lvllogger.Error("")
-		lvllogger.Errorf("Test")
-		lvllogger.Errorln("")
+		LLogger.Warn("")
+		LLogger.Warnf("Test")
+		LLogger.Warnln("")
 
-		lvllogger.Warn("")
-		lvllogger.Warnf("Test")
-		lvllogger.Warnln("")
+		LLogger.Info("")
+		LLogger.Infof("Test")
+		LLogger.Infoln("")
 
-		lvllogger.Info("")
-		lvllogger.Infof("Test")
-		lvllogger.Infoln("")
-
-		lvllogger.Debug("")
-		lvllogger.Debugf("Test")
-		lvllogger.Debugln("")
+		LLogger.Debug("")
+		LLogger.Debugf("Test")
+		LLogger.Debugln("")
 
 		if len(logger.loggingData) == len(test.out) && len(test.out) == 0 {
 			if test.in != -1 {
