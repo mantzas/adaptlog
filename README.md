@@ -3,12 +3,10 @@
 
 Package adaptlog is a logging abstraction for go. The name of the package is a composition of adapt(adaptive) and log(logging).
 
-The developer uses this abstraction in order to avoid depending on a specific logging implementation. The package provides two abstractions:
+The developer uses this abstraction in order to avoid depending on a specific logging implementation. 
+The package provides a abstraction that covers the standard logging(like in the standard log package) and the leveled logging (like many of them out there).
 
-* The standard logger based on the standard log package and the leveled logger based on many leveled logging packages out there.
-* The developer has only to setup either one by implementing a interface.
-
-The simplest way to use adaptlog's standard logger is by simply implementing the StdLogger interface like below.
+The simplest way to use adaptlog's logger is by simply implementing the Logger interface like illustarted in the samples of the examples folder.
 
     package main
 
@@ -35,42 +33,13 @@ The simplest way to use adaptlog's standard logger is by simply implementing the
     func (l *MyLogger) Println(args ...interface{}) {
       log.Println(args...)
     }
-
-    // Panic logging
-    func (l *MyLogger) Panic(args ...interface{}) {
-      log.Panic(args...)
-    }
-
-    // Panicf logging
-    func (l *MyLogger) Panicf(msg string, args ...interface{}) {
-      log.Panicf(msg, args...)
-    }
-
-    // Panicln logging
-    func (l *MyLogger) Panicln(args ...interface{}) {
-      log.Panicln(args...)
-    }
-
-    // Fatal logging
-    func (l *MyLogger) Fatal(args ...interface{}) {
-      log.Panic(args...)
-    }
-
-    // Fatalf logging
-    func (l *MyLogger) Fatalf(msg string, args ...interface{}) {
-      log.Panicf(msg, args...)
-    }
-
-    // Fatalln logging
-    func (l *MyLogger) Fatalln(args ...interface{}) {
-      log.Panicln(args...)
-    }
+    ...
 
     func main() {
 
       // configure once
-      adaptlog.ConfigStandardLogger(new(MyLogger))
+	  adaptlog.Configure(new(MyLogger), adaptlog.AnyLevel)
 
-      // use logger
-      Logger.Print("Hello World!")
+	  // use logger
+	  adaptlog.Print("Hello World!")
     }
