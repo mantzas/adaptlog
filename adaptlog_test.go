@@ -104,6 +104,39 @@ func TestLeveledLoggerLoggingSucceeds(t *testing.T) {
 	}
 }
 
+var levelMapTests = []struct {
+	in       string
+	out      LogLevel
+	hasError bool
+}{
+	{"AnyLevel", AnyLevel, false},
+	{"DebugLevel", DebugLevel, false},
+	{"InfoLevel", InfoLevel, false},
+	{"WarnLevel", WarnLevel, false},
+	{"ErrorLevel", ErrorLevel, false},
+	{"FatalLevel", FatalLevel, false},
+	{"PanicLevel", PanicLevel, false},
+	{"XXX", AnyLevel, true},
+}
+
+func TestMapLogLevel(t *testing.T) {
+
+	for _, test := range levelMapTests {
+
+		level, err := MapLogLevel(test.in)
+
+		if test.hasError && err == nil {
+			t.Fatal("should have returned an error")
+			t.Fail()
+		}
+
+		if test.out != level {
+			t.Fatalf("expected %d but got %d", test.out, level)
+			t.Fail()
+		}
+	}
+}
+
 var leveledLoggingTests = []struct {
 	in  LogLevel
 	out []string

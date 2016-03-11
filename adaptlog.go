@@ -1,5 +1,7 @@
 package adaptlog
 
+import "fmt"
+
 var level LogLevel
 var log Logger
 
@@ -29,6 +31,29 @@ const (
 	// Any level
 	AnyLevel
 )
+
+// MapLogLevel to map a string to a log level
+func MapLogLevel(value string) (LogLevel, error) {
+
+	switch value {
+	case "PanicLevel":
+		return PanicLevel, nil
+	case "FatalLevel":
+		return FatalLevel, nil
+	case "ErrorLevel":
+		return ErrorLevel, nil
+	case "WarnLevel":
+		return WarnLevel, nil
+	case "InfoLevel":
+		return InfoLevel, nil
+	case "DebugLevel":
+		return DebugLevel, nil
+	case "AnyLevel":
+		return AnyLevel, nil
+	default:
+		return AnyLevel, fmt.Errorf("Cannot map %s to a log level.", value)
+	}
+}
 
 // Logger interface. Introduces Error, Warn, Info and Debug logging facilities.
 type Logger interface {
