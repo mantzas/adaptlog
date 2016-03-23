@@ -6,7 +6,7 @@ import (
 	"github.com/mantzas/adaptlog"
 )
 
-// MyLogger custom logger implementing the StdLogger interface
+// MyLogger custom logger implementing the Simple Logger interface
 type MyLogger struct {
 }
 
@@ -55,71 +55,11 @@ func (l *MyLogger) Fatalln(args ...interface{}) {
 	log.Panicln(args...)
 }
 
-// Error logging
-func (l *MyLogger) Error(args ...interface{}) {
-	log.Print(args...)
-}
-
-// Errorf logging
-func (l *MyLogger) Errorf(msg string, args ...interface{}) {
-	log.Printf(msg, args...)
-}
-
-// Errorln logging
-func (l *MyLogger) Errorln(args ...interface{}) {
-	log.Println(args...)
-}
-
-// Warn logging
-func (l *MyLogger) Warn(args ...interface{}) {
-	log.Print(args...)
-}
-
-//Warnf logging
-func (l *MyLogger) Warnf(msg string, args ...interface{}) {
-	log.Printf(msg, args...)
-}
-
-// Warnln logging
-func (l *MyLogger) Warnln(args ...interface{}) {
-	log.Println(args...)
-}
-
-// Info logging
-func (l *MyLogger) Info(args ...interface{}) {
-	log.Print(args...)
-}
-
-// Infof logging
-func (l *MyLogger) Infof(msg string, args ...interface{}) {
-	log.Printf(msg, args...)
-}
-
-// Infoln logging
-func (l *MyLogger) Infoln(args ...interface{}) {
-	log.Println(args...)
-}
-
-// Debug logging
-func (l *MyLogger) Debug(args ...interface{}) {
-	log.Print(args...)
-}
-
-// Debugf logging
-func (l *MyLogger) Debugf(msg string, args ...interface{}) {
-	log.Printf(msg, args...)
-}
-
-// Debugln logging
-func (l *MyLogger) Debugln(args ...interface{}) {
-	log.Println(args...)
-}
-
 func main() {
 
 	// configure once
-	adaptlog.Configure(new(MyLogger), adaptlog.AnyLevel)
+	adaptlog.ConfigureSimpleLogger(new(MyLogger))
 
 	// use logger
-	adaptlog.Print("Hello World!")
+	adaptlog.Simple.Print("Hello World!")
 }
