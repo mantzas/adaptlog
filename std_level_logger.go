@@ -44,7 +44,6 @@ var logfFunc func(LogLevel, string, ...interface{})
 // By providing a different io.Writer and prefix you can control the logging output (testing etc)
 func ConfigureStdLevelLogger(defaultLoglevel LogLevel, w io.Writer) {
 
-	//logLevel := strings.Join([]string{level.String(), " "}, "")
 	logFunc = func(level LogLevel, args ...interface{}) {
 		if defaultLoglevel > level {
 			return
@@ -53,7 +52,7 @@ func ConfigureStdLevelLogger(defaultLoglevel LogLevel, w io.Writer) {
 		if w != nil {
 			log.SetOutput(w)
 		}
-		args = prepend(args, level.String())
+		args = prepend(args, strings.Join([]string{level.String(), " "}, ""))
 		log.Print(args...)
 	}
 

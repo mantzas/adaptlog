@@ -106,23 +106,23 @@ var stdLevelLogTests = []struct {
 	in  contextLevelLogTestCase
 	out string
 }{
-	{contextLevelLogTestCase{"Debug", "", []string{"arg1", "arg2", "arg3"}}, "Debugarg1arg2arg3\n"},
+	{contextLevelLogTestCase{"Debug", "", []string{"arg1", "arg2", "arg3"}}, "Debug arg1arg2arg3\n"},
 	{contextLevelLogTestCase{"Debugf", "args=%s,%s,%s", []string{"arg1", "arg2", "arg3"}}, "Debug args=arg1,arg2,arg3\n"},
 	{contextLevelLogTestCase{"Debugln", "", []string{"arg1", "arg2", "arg3"}}, "Debug arg1 arg2 arg3\n"},
 
-	{contextLevelLogTestCase{"Info", "", []string{"arg1", "arg2", "arg3"}}, "Infoarg1arg2arg3\n"},
+	{contextLevelLogTestCase{"Info", "", []string{"arg1", "arg2", "arg3"}}, "Info arg1arg2arg3\n"},
 	{contextLevelLogTestCase{"Infof", "args=%s,%s,%s", []string{"arg1", "arg2", "arg3"}}, "Info args=arg1,arg2,arg3\n"},
 	{contextLevelLogTestCase{"Infoln", "", []string{"arg1", "arg2", "arg3"}}, "Info arg1 arg2 arg3\n"},
 
-	{contextLevelLogTestCase{"Warn", "", []string{"arg1", "arg2", "arg3"}}, "Warnarg1arg2arg3\n"},
+	{contextLevelLogTestCase{"Warn", "", []string{"arg1", "arg2", "arg3"}}, "Warn arg1arg2arg3\n"},
 	{contextLevelLogTestCase{"Warnf", "args=%s,%s,%s", []string{"arg1", "arg2", "arg3"}}, "Warn args=arg1,arg2,arg3\n"},
 	{contextLevelLogTestCase{"Warnln", "", []string{"arg1", "arg2", "arg3"}}, "Warn arg1 arg2 arg3\n"},
 
-	{contextLevelLogTestCase{"Error", "", []string{"arg1", "arg2", "arg3"}}, "Errorarg1arg2arg3\n"},
+	{contextLevelLogTestCase{"Error", "", []string{"arg1", "arg2", "arg3"}}, "Error arg1arg2arg3\n"},
 	{contextLevelLogTestCase{"Errorf", "args=%s,%s,%s", []string{"arg1", "arg2", "arg3"}}, "Error args=arg1,arg2,arg3\n"},
 	{contextLevelLogTestCase{"Errorln", "", []string{"arg1", "arg2", "arg3"}}, "Error arg1 arg2 arg3\n"},
 
-	{contextLevelLogTestCase{"Fatal", "", []string{"arg1", "arg2", "arg3"}}, "Fatalarg1arg2arg3\n"},
+	{contextLevelLogTestCase{"Fatal", "", []string{"arg1", "arg2", "arg3"}}, "Fatal arg1arg2arg3\n"},
 	{contextLevelLogTestCase{"Fatalf", "args=%s,%s,%s", []string{"arg1", "arg2", "arg3"}}, "Fatal args=arg1,arg2,arg3\n"},
 	{contextLevelLogTestCase{"Fatalln", "", []string{"arg1", "arg2", "arg3"}}, "Fatal arg1 arg2 arg3\n"},
 }
