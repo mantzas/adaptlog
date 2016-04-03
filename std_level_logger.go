@@ -36,15 +36,11 @@ func (l LogLevel) String() string {
 	}
 }
 
-var logFunc func(LogLevel, ...interface{})
-var loglnFunc func(LogLevel, ...interface{})
-var logfFunc func(LogLevel, string, ...interface{})
-
 // ConfigureStdLevelLogger configures the standard level logger with the default log level.
 // By providing a different io.Writer and prefix you can control the logging output (testing etc)
 func ConfigureStdLevelLogger(defaultLoglevel LogLevel, w io.Writer) {
 
-	logFunc = func(level LogLevel, args ...interface{}) {
+	logFunc := func(level LogLevel, args ...interface{}) {
 		if defaultLoglevel > level {
 			return
 		}
@@ -56,7 +52,7 @@ func ConfigureStdLevelLogger(defaultLoglevel LogLevel, w io.Writer) {
 		log.Print(args...)
 	}
 
-	loglnFunc = func(level LogLevel, args ...interface{}) {
+	loglnFunc := func(level LogLevel, args ...interface{}) {
 		if defaultLoglevel > level {
 			return
 		}
@@ -68,7 +64,7 @@ func ConfigureStdLevelLogger(defaultLoglevel LogLevel, w io.Writer) {
 		log.Println(args...)
 	}
 
-	logfFunc = func(level LogLevel, msg string, args ...interface{}) {
+	logfFunc := func(level LogLevel, msg string, args ...interface{}) {
 		if defaultLoglevel > level {
 			return
 		}
@@ -79,6 +75,8 @@ func ConfigureStdLevelLogger(defaultLoglevel LogLevel, w io.Writer) {
 
 		log.Printf(strings.Join([]string{level.String(), msg}, " "), args...)
 	}
+
+	Level = &StdLevelLogger{logFunc, loglnFunc, logfFunc}
 }
 
 func prepend(args []interface{}, value string) []interface{} {
@@ -95,12 +93,6 @@ type StdLevelLogger struct {
 	logFunc   func(LogLevel, ...interface{})
 	loglnFunc func(LogLevel, ...interface{})
 	logfFunc  func(LogLevel, string, ...interface{})
-}
-
-// NewStdLevelLogger creates a new standard level logger
-func NewStdLevelLogger() LevelLogger {
-
-	return &StdLevelLogger{logFunc, loglnFunc, logfFunc}
 }
 
 // Fatal logging

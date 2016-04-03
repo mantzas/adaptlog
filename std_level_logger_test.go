@@ -30,9 +30,8 @@ func TestLogLevelToString(t *testing.T) {
 func TestStdLevelLoggerNew(t *testing.T) {
 
 	ConfigureStdLevelLogger(DebugLevel, nil)
-	l := NewStdLevelLogger()
 
-	if l == nil {
+	if Level == nil {
 		t.Fatal("Should have returned a error")
 	}
 }
@@ -40,9 +39,8 @@ func TestStdLevelLoggerNew(t *testing.T) {
 func TestStdLevelLoggerNewWithWriter(t *testing.T) {
 
 	ConfigureStdLevelLogger(DebugLevel, new(TestWriter))
-	l := NewStdLevelLogger()
 
-	if l == nil {
+	if Level == nil {
 		t.Fatal("Should have returned a error")
 	}
 }
@@ -52,27 +50,10 @@ func TestStdLevelLoggerWithHigherDefaultLevel(t *testing.T) {
 	w := new(TestWriter)
 
 	ConfigureStdLevelLogger(ErrorLevel, w)
-	l := NewStdLevelLogger()
 
-	l.Warn("Test")
-	l.Error("Test")
-	l.Fatal("Test")
-
-	if len(w.data) != 2 {
-		t.Fatalf("Data should have been 2 %s", w.data)
-	}
-	if strings.HasSuffix(w.data[0], "Error Test") {
-		t.Fatalf("Expected %s actual %s", "Error Test", w.data[0])
-	}
-
-	if strings.HasSuffix(w.data[1], "Fatal Test") {
-		t.Fatalf("Expected %s actual %s", "Error Test", w.data[0])
-	}
-	w.data = nil
-
-	l.Warnf("Test")
-	l.Errorf("Test")
-	l.Fatalf("Test")
+	Level.Warn("Test")
+	Level.Error("Test")
+	Level.Fatal("Test")
 
 	if len(w.data) != 2 {
 		t.Fatalf("Data should have been 2 %s", w.data)
@@ -86,9 +67,25 @@ func TestStdLevelLoggerWithHigherDefaultLevel(t *testing.T) {
 	}
 	w.data = nil
 
-	l.Warnln("Test")
-	l.Errorln("Test")
-	l.Fatalln("Test")
+	Level.Warnf("Test")
+	Level.Errorf("Test")
+	Level.Fatalf("Test")
+
+	if len(w.data) != 2 {
+		t.Fatalf("Data should have been 2 %s", w.data)
+	}
+	if strings.HasSuffix(w.data[0], "Error Test") {
+		t.Fatalf("Expected %s actual %s", "Error Test", w.data[0])
+	}
+
+	if strings.HasSuffix(w.data[1], "Fatal Test") {
+		t.Fatalf("Expected %s actual %s", "Error Test", w.data[0])
+	}
+	w.data = nil
+
+	Level.Warnln("Test")
+	Level.Errorln("Test")
+	Level.Fatalln("Test")
 
 	if len(w.data) != 2 {
 		t.Fatalf("Data should have been 2 %s", w.data)
@@ -131,28 +128,27 @@ func TestStdLeveledLogger(t *testing.T) {
 
 	w := new(TestWriter)
 	ConfigureStdLevelLogger(DebugLevel, w)
-	l := NewStdLevelLogger()
 
 	logFunctions := make(map[string]logFunction, 0)
-	logFunctions["Debug"] = func(msg string, args ...string) { l.Debug(convertToInterfaceSlice(args)...) }
-	logFunctions["Debugf"] = func(msg string, args ...string) { l.Debugf(msg, convertToInterfaceSlice(args)...) }
-	logFunctions["Debugln"] = func(msg string, args ...string) { l.Debugln(convertToInterfaceSlice(args)...) }
+	logFunctions["Debug"] = func(msg string, args ...string) { Level.Debug(convertToInterfaceSlice(args)...) }
+	logFunctions["Debugf"] = func(msg string, args ...string) { Level.Debugf(msg, convertToInterfaceSlice(args)...) }
+	logFunctions["Debugln"] = func(msg string, args ...string) { Level.Debugln(convertToInterfaceSlice(args)...) }
 
-	logFunctions["Info"] = func(msg string, args ...string) { l.Info(convertToInterfaceSlice(args)...) }
-	logFunctions["Infof"] = func(msg string, args ...string) { l.Infof(msg, convertToInterfaceSlice(args)...) }
-	logFunctions["Infoln"] = func(msg string, args ...string) { l.Infoln(convertToInterfaceSlice(args)...) }
+	logFunctions["Info"] = func(msg string, args ...string) { Level.Info(convertToInterfaceSlice(args)...) }
+	logFunctions["Infof"] = func(msg string, args ...string) { Level.Infof(msg, convertToInterfaceSlice(args)...) }
+	logFunctions["Infoln"] = func(msg string, args ...string) { Level.Infoln(convertToInterfaceSlice(args)...) }
 
-	logFunctions["Warn"] = func(msg string, args ...string) { l.Warn(convertToInterfaceSlice(args)...) }
-	logFunctions["Warnf"] = func(msg string, args ...string) { l.Warnf(msg, convertToInterfaceSlice(args)...) }
-	logFunctions["Warnln"] = func(msg string, args ...string) { l.Warnln(convertToInterfaceSlice(args)...) }
+	logFunctions["Warn"] = func(msg string, args ...string) { Level.Warn(convertToInterfaceSlice(args)...) }
+	logFunctions["Warnf"] = func(msg string, args ...string) { Level.Warnf(msg, convertToInterfaceSlice(args)...) }
+	logFunctions["Warnln"] = func(msg string, args ...string) { Level.Warnln(convertToInterfaceSlice(args)...) }
 
-	logFunctions["Error"] = func(msg string, args ...string) { l.Error(convertToInterfaceSlice(args)...) }
-	logFunctions["Errorf"] = func(msg string, args ...string) { l.Errorf(msg, convertToInterfaceSlice(args)...) }
-	logFunctions["Errorln"] = func(msg string, args ...string) { l.Errorln(convertToInterfaceSlice(args)...) }
+	logFunctions["Error"] = func(msg string, args ...string) { Level.Error(convertToInterfaceSlice(args)...) }
+	logFunctions["Errorf"] = func(msg string, args ...string) { Level.Errorf(msg, convertToInterfaceSlice(args)...) }
+	logFunctions["Errorln"] = func(msg string, args ...string) { Level.Errorln(convertToInterfaceSlice(args)...) }
 
-	logFunctions["Fatal"] = func(msg string, args ...string) { l.Fatal(convertToInterfaceSlice(args)...) }
-	logFunctions["Fatalf"] = func(msg string, args ...string) { l.Fatalf(msg, convertToInterfaceSlice(args)...) }
-	logFunctions["Fatalln"] = func(msg string, args ...string) { l.Fatalln(convertToInterfaceSlice(args)...) }
+	logFunctions["Fatal"] = func(msg string, args ...string) { Level.Fatal(convertToInterfaceSlice(args)...) }
+	logFunctions["Fatalf"] = func(msg string, args ...string) { Level.Fatalf(msg, convertToInterfaceSlice(args)...) }
+	logFunctions["Fatalln"] = func(msg string, args ...string) { Level.Fatalln(convertToInterfaceSlice(args)...) }
 
 	for _, testCase := range stdLevelLogTests {
 		w.data = nil
