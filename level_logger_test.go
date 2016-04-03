@@ -1,6 +1,8 @@
 package adaptlog
 
 import (
+	"fmt"
+	"strings"
 	"testing"
 )
 
@@ -14,35 +16,35 @@ func TestLeveledLoggerLoggingSucceeds(t *testing.T) {
 		t.Fatal("Logger should have been not nil!")
 	}
 
-	Level.Fatal("")
-	Level.Fatalf("Test")
-	Level.Fatalln("")
+	Level.Fatal(FatalMsg)
+	Level.Fatalf("Test %s", FatalfMsg)
+	Level.Fatalln(FatallnMsg)
 
-	Level.Error("")
-	Level.Errorf("Test")
-	Level.Errorln("")
+	Level.Error(ErrorMsg)
+	Level.Fatalf("Test %s", ErrorfMsg)
+	Level.Errorln(ErrorlnMsg)
 
-	Level.Warn("")
-	Level.Warnf("Test")
-	Level.Warnln("")
+	Level.Warn(WarnMsg)
+	Level.Fatalf("Test %s", WarnfMsg)
+	Level.Warnln(WarnlnMsg)
 
-	Level.Info("")
-	Level.Infof("Test")
-	Level.Infoln("")
+	Level.Info(InfoMsg)
+	Level.Fatalf("Test %s", InfofMsg)
+	Level.Infoln(InfolnMsg)
 
-	Level.Debug("")
-	Level.Debugf("Test")
-	Level.Debugln("")
+	Level.Debug(DebugMsg)
+	Level.Fatalf("Test %s", DebugfMsg)
+	Level.Debugln(DebuglnMsg)
 
 	if len(logger.loggingData) != 15 {
 		t.Fatal("Logged items should be 15!")
 	}
 
-	if logger.loggingData[0] != FatalMsg || logger.loggingData[1] != FatalfMsg || logger.loggingData[2] != FatallnMsg ||
-		logger.loggingData[3] != ErrorMsg || logger.loggingData[4] != ErrorfMsg || logger.loggingData[5] != ErrorlnMsg ||
-		logger.loggingData[6] != WarnMsg || logger.loggingData[7] != WarnfMsg || logger.loggingData[8] != WarnlnMsg ||
-		logger.loggingData[9] != InfoMsg || logger.loggingData[10] != InfofMsg || logger.loggingData[11] != InfolnMsg ||
-		logger.loggingData[12] != DebugMsg || logger.loggingData[13] != DebugfMsg || logger.loggingData[14] != DebuglnMsg {
+	if logger.loggingData[0] != FatalMsg || logger.loggingData[1] != "Test "+FatalfMsg || logger.loggingData[2] != FatallnMsg ||
+		logger.loggingData[3] != ErrorMsg || logger.loggingData[4] != "Test "+ErrorfMsg || logger.loggingData[5] != ErrorlnMsg ||
+		logger.loggingData[6] != WarnMsg || logger.loggingData[7] != "Test "+WarnfMsg || logger.loggingData[8] != WarnlnMsg ||
+		logger.loggingData[9] != InfoMsg || logger.loggingData[10] != "Test "+InfofMsg || logger.loggingData[11] != InfolnMsg ||
+		logger.loggingData[12] != DebugMsg || logger.loggingData[13] != "Test "+DebugfMsg || logger.loggingData[14] != DebuglnMsg {
 		t.Fatal("Logged items do not match!")
 	}
 }
@@ -70,62 +72,79 @@ type TestLevelLogger struct {
 }
 
 func (l *TestLevelLogger) Fatal(args ...interface{}) {
-
-	l.loggingData = append(l.loggingData, FatalMsg)
+	l.loggingData = append(l.loggingData, l.StringJoin(args...))
 }
 
 func (l *TestLevelLogger) Fatalf(msg string, args ...interface{}) {
-	l.loggingData = append(l.loggingData, FatalfMsg)
+	l.loggingData = append(l.loggingData, l.StringJoinWithMessage(msg, args...))
 }
 
 func (l *TestLevelLogger) Fatalln(args ...interface{}) {
-	l.loggingData = append(l.loggingData, FatallnMsg)
+	l.loggingData = append(l.loggingData, l.StringJoin(args...))
 }
 
 func (l *TestLevelLogger) Error(args ...interface{}) {
-	l.loggingData = append(l.loggingData, ErrorMsg)
+	l.loggingData = append(l.loggingData, l.StringJoin(args...))
 }
 
 func (l *TestLevelLogger) Errorf(msg string, args ...interface{}) {
-	l.loggingData = append(l.loggingData, ErrorfMsg)
+	l.loggingData = append(l.loggingData, l.StringJoinWithMessage(msg, args...))
 }
 
 func (l *TestLevelLogger) Errorln(args ...interface{}) {
-	l.loggingData = append(l.loggingData, ErrorlnMsg)
+	l.loggingData = append(l.loggingData, l.StringJoin(args...))
 }
 
 func (l *TestLevelLogger) Warn(args ...interface{}) {
-	l.loggingData = append(l.loggingData, WarnMsg)
+	l.loggingData = append(l.loggingData, l.StringJoin(args...))
 }
 
 func (l *TestLevelLogger) Warnf(msg string, args ...interface{}) {
-	l.loggingData = append(l.loggingData, WarnfMsg)
+	l.loggingData = append(l.loggingData, l.StringJoinWithMessage(msg, args...))
 }
 
 func (l *TestLevelLogger) Warnln(args ...interface{}) {
-	l.loggingData = append(l.loggingData, WarnlnMsg)
+	l.loggingData = append(l.loggingData, l.StringJoin(args...))
 }
 
 func (l *TestLevelLogger) Info(args ...interface{}) {
-	l.loggingData = append(l.loggingData, InfoMsg)
+	l.loggingData = append(l.loggingData, l.StringJoin(args...))
 }
 
 func (l *TestLevelLogger) Infof(msg string, args ...interface{}) {
-	l.loggingData = append(l.loggingData, InfofMsg)
+	l.loggingData = append(l.loggingData, l.StringJoinWithMessage(msg, args...))
 }
 
 func (l *TestLevelLogger) Infoln(args ...interface{}) {
-	l.loggingData = append(l.loggingData, InfolnMsg)
+	l.loggingData = append(l.loggingData, l.StringJoin(args...))
 }
 
 func (l *TestLevelLogger) Debug(args ...interface{}) {
-	l.loggingData = append(l.loggingData, DebugMsg)
+	l.loggingData = append(l.loggingData, l.StringJoin(args...))
 }
 
 func (l *TestLevelLogger) Debugf(msg string, args ...interface{}) {
-	l.loggingData = append(l.loggingData, DebugfMsg)
+	l.loggingData = append(l.loggingData, l.StringJoinWithMessage(msg, args...))
 }
 
 func (l *TestLevelLogger) Debugln(args ...interface{}) {
-	l.loggingData = append(l.loggingData, DebuglnMsg)
+	l.loggingData = append(l.loggingData, l.StringJoin(args...))
+}
+
+func (l *TestLevelLogger) StringJoinWithMessage(msg string, args ...interface{}) string {
+
+	var message = fmt.Sprintf(msg, args...)
+	return message
+}
+
+func (l *TestLevelLogger) StringJoin(args ...interface{}) string {
+
+	var strs []string
+
+	for _, value := range args {
+
+		strs = append(strs, fmt.Sprintf("%v", value))
+	}
+
+	return strings.Join(strs, " ")
 }
