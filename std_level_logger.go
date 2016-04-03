@@ -36,151 +36,183 @@ func (l LogLevel) String() string {
 	}
 }
 
-// ConfigureStdLevelLogger configures the standard level logger with the default log level.
-// By providing a different io.Writer and prefix you can control the logging output (testing etc)
-func ConfigureStdLevelLogger(defaultLoglevel LogLevel, w io.Writer) {
-
-	logFunc := func(level LogLevel, args ...interface{}) {
-		if defaultLoglevel > level {
-			return
-		}
-
-		if w != nil {
-			log.SetOutput(w)
-		}
-		args = prepend(args, strings.Join([]string{level.String(), " "}, ""))
-		log.Print(args...)
-	}
-
-	loglnFunc := func(level LogLevel, args ...interface{}) {
-		if defaultLoglevel > level {
-			return
-		}
-
-		if w != nil {
-			log.SetOutput(w)
-		}
-		args = prepend(args, level.String())
-		log.Println(args...)
-	}
-
-	logfFunc := func(level LogLevel, msg string, args ...interface{}) {
-		if defaultLoglevel > level {
-			return
-		}
-
-		if w != nil {
-			log.SetOutput(w)
-		}
-
-		log.Printf(strings.Join([]string{level.String(), msg}, " "), args...)
-	}
-
-	Level = &StdLevelLogger{logFunc, loglnFunc, logfFunc}
-}
-
-func prepend(args []interface{}, value string) []interface{} {
-	argsExt := make([]interface{}, len(args)+1)
-	argsExt[0] = value
-	for index := 0; index < len(args); index++ {
-		argsExt[index+1] = args[index]
-	}
-	return argsExt
-}
+var logFunc func(LogLevel, string, ...interface{})
+var loglnFunc func(LogLevel, string, ...interface{})
+var logfFunc func(LogLevel, string, string, ...interface{})
 
 // StdLevelLogger is a level logger based on the standard log package
 type StdLevelLogger struct {
-	logFunc   func(LogLevel, ...interface{})
-	loglnFunc func(LogLevel, ...interface{})
-	logfFunc  func(LogLevel, string, ...interface{})
+	logFunc   func(LogLevel, string, ...interface{})
+	loglnFunc func(LogLevel, string, ...interface{})
+	logfFunc  func(LogLevel, string, string, ...interface{})
+	context   string
+}
+
+// NewStdLevelLogger creates a new standard level logger
+func NewStdLevelLogger(context string) *StdLevelLogger {
+	return &StdLevelLogger{logFunc, loglnFunc, logfFunc, context}
+}
+
+// ConfigureStdLevelLogger configures the standard level logger with the default log level.
+// By providing a different io.Writer and prefix you can control the logging output (testing etc)
+func ConfigureStdLevelLogger(defaultLoglevel LogLevel, w io.Writer, context string) {
+
+	logFunc = func(level LogLevel, context string, args ...interface{}) {
+		if defaultLoglevel > level {
+			return
+		}
+
+		if w != nil {
+			log.SetOutput(w)
+		}
+
+		if context == "" {
+			args = prepend(args, strings.Join([]string{level.String(), " "}, ""))
+		} else {
+			args = prepend(args, level.String(), " ", context, " ")
+		}
+
+		log.Print(args...)
+	}
+
+	loglnFunc = func(level LogLevel, context string, args ...interface{}) {
+		if defaultLoglevel > level {
+			return
+		}
+
+		if w != nil {
+			log.SetOutput(w)
+		}
+
+		if context == "" {
+			args = prepend(args, level.String())
+		} else {
+			args = prepend(args, level.String(), context)
+		}
+
+		log.Println(args...)
+	}
+
+	logfFunc = func(level LogLevel, context string, msg string, args ...interface{}) {
+		if defaultLoglevel > level {
+			return
+		}
+
+		if w != nil {
+			log.SetOutput(w)
+		}
+
+		if context == "" {
+			log.Printf(strings.Join([]string{level.String(), msg}, " "), args...)
+		} else {
+			log.Printf(strings.Join([]string{level.String(), context, msg}, " "), args...)
+		}
+	}
+
+	Level = NewStdLevelLogger(context)
+}
+
+func prepend(args []interface{}, values ...string) []interface{} {
+	valuesLength := len(values)
+	argsLength := len(args)
+	argsExt := make([]interface{}, argsLength+valuesLength)
+
+	for index := 0; index < valuesLength; index++ {
+		argsExt[index] = values[index]
+	}
+
+	for index := valuesLength; index < argsLength+valuesLength; index++ {
+		argsExt[index] = args[index-valuesLength]
+	}
+	return argsExt
 }
 
 // Fatal logging
 func (l *StdLevelLogger) Fatal(args ...interface{}) {
 
-	l.logFunc(FatalLevel, args...)
+	l.logFunc(FatalLevel, l.context, args...)
 }
 
 // Fatalf logging
 func (l *StdLevelLogger) Fatalf(msg string, args ...interface{}) {
 
-	l.logfFunc(FatalLevel, msg, args...)
+	l.logfFunc(FatalLevel, l.context, msg, args...)
 }
 
 // Fatalln logging
 func (l *StdLevelLogger) Fatalln(args ...interface{}) {
 
-	l.loglnFunc(FatalLevel, args...)
+	l.loglnFunc(FatalLevel, l.context, args...)
 }
 
 // Error logging
 func (l *StdLevelLogger) Error(args ...interface{}) {
 
-	l.logFunc(ErrorLevel, args...)
+	l.logFunc(ErrorLevel, l.context, args...)
 }
 
 // Errorf logging
 func (l *StdLevelLogger) Errorf(msg string, args ...interface{}) {
 
-	l.logfFunc(ErrorLevel, msg, args...)
+	l.logfFunc(ErrorLevel, l.context, msg, args...)
 }
 
 // Errorln logging
 func (l *StdLevelLogger) Errorln(args ...interface{}) {
 
-	l.loglnFunc(ErrorLevel, args...)
+	l.loglnFunc(ErrorLevel, l.context, args...)
 }
 
 // Warn logging
 func (l *StdLevelLogger) Warn(args ...interface{}) {
 
-	l.logFunc(WarnLevel, args...)
+	l.logFunc(WarnLevel, l.context, args...)
 }
 
 // Warnf logging
 func (l *StdLevelLogger) Warnf(msg string, args ...interface{}) {
 
-	l.logfFunc(WarnLevel, msg, args...)
+	l.logfFunc(WarnLevel, l.context, msg, args...)
 }
 
 // Warnln logging
 func (l *StdLevelLogger) Warnln(args ...interface{}) {
 
-	l.loglnFunc(WarnLevel, args...)
+	l.loglnFunc(WarnLevel, l.context, args...)
 }
 
 // Info logging
 func (l *StdLevelLogger) Info(args ...interface{}) {
 
-	l.logFunc(InfoLevel, args...)
+	l.logFunc(InfoLevel, l.context, args...)
 }
 
 // Infof logging
 func (l *StdLevelLogger) Infof(msg string, args ...interface{}) {
 
-	l.logfFunc(InfoLevel, msg, args...)
+	l.logfFunc(InfoLevel, l.context, msg, args...)
 }
 
 // Infoln logging
 func (l *StdLevelLogger) Infoln(args ...interface{}) {
 
-	l.loglnFunc(InfoLevel, args...)
+	l.loglnFunc(InfoLevel, l.context, args...)
 }
 
 // Debug logging
 func (l *StdLevelLogger) Debug(args ...interface{}) {
 
-	l.logFunc(DebugLevel, args...)
+	l.logFunc(DebugLevel, l.context, args...)
 }
 
 // Debugf logging
 func (l *StdLevelLogger) Debugf(msg string, args ...interface{}) {
 
-	l.logfFunc(DebugLevel, msg, args...)
+	l.logfFunc(DebugLevel, l.context, msg, args...)
 }
 
 // Debugln logging
 func (l *StdLevelLogger) Debugln(args ...interface{}) {
 
-	l.loglnFunc(DebugLevel, args...)
+	l.loglnFunc(DebugLevel, l.context, args...)
 }

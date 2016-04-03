@@ -29,7 +29,7 @@ func TestLogLevelToString(t *testing.T) {
 
 func TestStdLevelLoggerNew(t *testing.T) {
 
-	ConfigureStdLevelLogger(DebugLevel, nil)
+	ConfigureStdLevelLogger(DebugLevel, nil, "")
 
 	if Level == nil {
 		t.Fatal("Should have returned a error")
@@ -38,7 +38,7 @@ func TestStdLevelLoggerNew(t *testing.T) {
 
 func TestStdLevelLoggerNewWithWriter(t *testing.T) {
 
-	ConfigureStdLevelLogger(DebugLevel, new(TestWriter))
+	ConfigureStdLevelLogger(DebugLevel, new(TestWriter), "")
 
 	if Level == nil {
 		t.Fatal("Should have returned a error")
@@ -49,7 +49,7 @@ func TestStdLevelLoggerWithHigherDefaultLevel(t *testing.T) {
 
 	w := new(TestWriter)
 
-	ConfigureStdLevelLogger(ErrorLevel, w)
+	ConfigureStdLevelLogger(ErrorLevel, w, "")
 
 	Level.Warn("Test")
 	Level.Error("Test")
@@ -58,11 +58,11 @@ func TestStdLevelLoggerWithHigherDefaultLevel(t *testing.T) {
 	if len(w.data) != 2 {
 		t.Fatalf("Data should have been 2 %s", w.data)
 	}
-	if strings.HasSuffix(w.data[0], "Error Test") {
+	if !strings.HasSuffix(w.data[0], "Error Test\n") {
 		t.Fatalf("Expected %s actual %s", "Error Test", w.data[0])
 	}
 
-	if strings.HasSuffix(w.data[1], "Fatal Test") {
+	if !strings.HasSuffix(w.data[1], "Fatal Test\n") {
 		t.Fatalf("Expected %s actual %s", "Error Test", w.data[0])
 	}
 	w.data = nil
@@ -74,11 +74,11 @@ func TestStdLevelLoggerWithHigherDefaultLevel(t *testing.T) {
 	if len(w.data) != 2 {
 		t.Fatalf("Data should have been 2 %s", w.data)
 	}
-	if strings.HasSuffix(w.data[0], "Error Test") {
+	if !strings.HasSuffix(w.data[0], "Error Test\n") {
 		t.Fatalf("Expected %s actual %s", "Error Test", w.data[0])
 	}
 
-	if strings.HasSuffix(w.data[1], "Fatal Test") {
+	if !strings.HasSuffix(w.data[1], "Fatal Test\n") {
 		t.Fatalf("Expected %s actual %s", "Error Test", w.data[0])
 	}
 	w.data = nil
@@ -90,12 +90,39 @@ func TestStdLevelLoggerWithHigherDefaultLevel(t *testing.T) {
 	if len(w.data) != 2 {
 		t.Fatalf("Data should have been 2 %s", w.data)
 	}
-	if strings.HasSuffix(w.data[0], "Error Test") {
+	if !strings.HasSuffix(w.data[0], "Error Test\n") {
 		t.Fatalf("Expected %s actual %s", "Error Test", w.data[0])
 	}
 
-	if strings.HasSuffix(w.data[1], "Fatal Test") {
+	if !strings.HasSuffix(w.data[1], "Fatal Test\n") {
 		t.Fatalf("Expected %s actual %s", "Error Test", w.data[0])
+	}
+}
+
+func TestStdLevelLoggerWithContext(t *testing.T) {
+
+	w := new(TestWriter)
+
+	ConfigureStdLevelLogger(DebugLevel, w, "Context")
+
+	Level.Debug("Test")
+	Level.Debugf("Test %s", "one")
+	Level.Debugln("Test")
+
+	if len(w.data) != 3 {
+		t.Fatalf("Data should have been 3 %s", w.data)
+	}
+
+	if !strings.HasSuffix(w.data[0], "Debug Context Test\n") {
+		t.Fatalf("Expected %s actual %s", "Debug Context Test", w.data[0])
+	}
+
+	if !strings.HasSuffix(w.data[1], "Debug Context Test one\n") {
+		t.Fatalf("Expected %s actual %s", "Debug Context Test one", w.data[1])
+	}
+
+	if !strings.HasSuffix(w.data[2], "Debug Context Test\n") {
+		t.Fatalf("Expected %s actual %s", "Debug Context Test", w.data[2])
 	}
 }
 
@@ -127,7 +154,7 @@ var stdLevelLogTests = []struct {
 func TestStdLeveledLogger(t *testing.T) {
 
 	w := new(TestWriter)
-	ConfigureStdLevelLogger(DebugLevel, w)
+	ConfigureStdLevelLogger(DebugLevel, w, "")
 
 	logFunctions := make(map[string]logFunction, 0)
 	logFunctions["Debug"] = func(msg string, args ...string) { Level.Debug(convertToInterfaceSlice(args)...) }
