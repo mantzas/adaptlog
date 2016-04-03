@@ -169,3 +169,19 @@ func (t *TestWriter) Write(p []byte) (n int, err error) {
 	t.data = append(t.data, text)
 	return len(text), nil
 }
+
+type logFunction func(string, ...string)
+
+func convertToInterfaceSlice(a []string) []interface{} {
+	b := make([]interface{}, len(a))
+	for i := range a {
+		b[i] = a[i]
+	}
+	return b
+}
+
+type contextLevelLogTestCase struct {
+	logFunctionName string
+	msg             string
+	args            []string
+}
