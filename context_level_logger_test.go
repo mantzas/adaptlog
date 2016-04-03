@@ -35,11 +35,6 @@ var contextLogTests = []struct {
 	{contextLevelLogTestCase{"Fatalln", "", []string{"arg1", "arg2", "arg3"}}, "TestContext arg1 arg2 arg3"},
 }
 
-type logOp struct {
-	name string
-	fn   func(string, ...string)
-}
-
 type logFunction func(string, ...string)
 
 func TestContextLeveledLogger(t *testing.T) {
