@@ -1,6 +1,6 @@
 language: go
 go:
-  - 1.6
+  - 1.6.2
   - tip
 before_script:
     - go get golang.org/x/tools/cmd/cover
