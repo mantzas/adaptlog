@@ -8,3 +8,4 @@ before_script:
 script: go test -v -covermode=count -coverprofile=coverage.out .
 after_success:
     - $HOME/gopath/bin/goveralls -covermode=count -coverprofile=coverage.out -service=travis-ci
+    - bash <(curl -s https://codecov.io/bash)
