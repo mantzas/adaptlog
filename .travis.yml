@@ -1,7 +1,6 @@
 language: go
 go:
-  - 1.8
-  - tip
+  - 1.9.x
 before_script:
     - go get golang.org/x/tools/cmd/cover
     - go get github.com/mattn/goveralls
