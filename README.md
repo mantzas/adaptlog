@@ -1,4 +1,4 @@
-# adaptlog  [![alt text](https://godoc.org/github.com/mantzas/adaptlog?status.png)](https://godoc.org/github.com/mantzas/adaptlog)&nbsp;[![build status](https://img.shields.io/travis/mantzas/adaptlog.svg)](http://travis-ci.org/mantzas/adaptlog)&nbsp;[![Coverage Status](https://coveralls.io/repos/github/mantzas/adaptlog/badge.svg?branch=master)](https://coveralls.io/github/mantzas/adaptlog?branch=master)
+# adaptlog  [![alt text](https://godoc.org/github.com/mantzas/adaptlog?status.png)](https://godoc.org/github.com/mantzas/adaptlog)&nbsp;[![build status](https://img.shields.io/travis/mantzas/adaptlog.svg)](http://travis-ci.org/mantzas/adaptlog)&nbsp;[![Coverage Status](https://coveralls.io/repos/github/mantzas/adaptlog/badge.svg?branch=master)](https://coveralls.io/github/mantzas/adaptlog?branch=master)[![Go Report Card](https://goreportcard.com/badge/github.com/mantzas/adaptlog)](https://goreportcard.com/report/github.com/mantzas/adaptlog)
 
 
 Package adaptlog is a logging abstraction in go. The name of the package is a composition of adapt(adaptive) and log(logging).
